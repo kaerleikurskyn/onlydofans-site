@@ -2,62 +2,133 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>OnlyDoFans – Subscriber hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OnlyDoFans — Subscriber Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.js"></script>
-  <style>
-    body { background:#0A0A0A; color:#fff; }
-    .container { max-width:600px; margin:0 auto; padding-top:3rem; }
-  </style>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="assets/js/auth.js"></script>
 </head>
-<body>
-  <header class="sticky top-0 z-50 bg-ink/70 backdrop-blur border-b border-white/10">
-    <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-brand shadow"><span class="text-2xl font-extrabold text-ink">O</span></span>
-        <span class="text-xl font-bold tracking-tight">OnlyDoFans</span>
+<body
+  onload="
+    const u = requireAuth('subscriber');
+    if (u) {
+      document.getElementById('subEmail').textContent = u.email;
+    }
+  "
+>
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <div class="brand">
+        <div class="brand-badge">O</div>
+        <div>
+          <div class="brand-name">Subscriber hub</div>
+          <div class="badge-soft">Clean, ad-free feed</div>
+        </div>
       </div>
-      <nav class="flex gap-4">
-        <button id="logout-btn" class="text-brand hover:underline">Log Out</button>
-      </nav>
+
+      <div class="nav-actions">
+        <a href="creator.html" class="btn btn-outline">Switch to creator</a>
+        <button class="btn btn-primary" onclick="logout()">Log out</button>
+      </div>
     </div>
   </header>
-  <main class="container">
-    <h1 class="text-3xl font-bold mb-4">Subscriber Portal</h1>
-    <p class="mb-6">Welcome, <span id="username">Subscriber</span>! Here is your feed of subscribed creators.</p>
-    <div id="feed" class="space-y-4">
-      <p class="text-gray-400">Feed loading…</p>
-    </div>
+
+  <main class="dashboard-shell">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="avatar"></div>
+        <div>
+          <div id="subEmail" style="font-size:14px;font-weight:600;">
+            Subscriber
+          </div>
+          <div class="sidebar-role">Supporting your favourite creators</div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <button class="active">Feed</button>
+        <button>Messages</button>
+        <button>Billing</button>
+        <button>Settings</button>
+      </div>
+
+      <div class="sidebar-footer">
+        Billing &amp; payment methods will be wired to PayPal / other processors later.
+      </div>
+    </aside>
+
+    <!-- MAIN PANEL -->
+    <section class="main-panel">
+      <div class="main-panel-header">
+        <div>
+          <h1>Your feed</h1>
+          <div class="stat-label">Fresh posts from creators you follow</div>
+        </div>
+        <span class="pill">Following 3 creators</span>
+      </div>
+
+      <div class="grid">
+        <!-- POST 1 -->
+        <article class="feed-card">
+          <div class="feed-meta">
+            <span>@nightshift.lab</span>
+            <span>3h ago</span>
+          </div>
+          <div class="feed-thumb"></div>
+          <div class="feed-title">Night session – long form video drop</div>
+          <div class="feed-meta">
+            <span>HD • 18 min</span>
+            <span>💙 126</span>
+          </div>
+          <button class="btn btn-outline" style="width:100%;margin-top:8px;">
+            View post
+          </button>
+          <button class="btn btn-primary" style="width:100%;margin-top:6px;">
+            Send tip (crypto or card)
+          </button>
+        </article>
+
+        <!-- POST 2 -->
+        <article class="feed-card">
+          <div class="feed-meta">
+            <span>@softfocus.creator</span>
+            <span>9h ago</span>
+          </div>
+          <div class="feed-thumb"></div>
+          <div class="feed-title">Behind the scenes – photo set</div>
+          <div class="feed-meta">
+            <span>24 photos</span>
+            <span>💙 89</span>
+          </div>
+          <button class="btn btn-outline" style="width:100%;margin-top:8px;">
+            View gallery
+          </button>
+          <button class="btn btn-primary" style="width:100%;margin-top:6px;">
+            Tip this creator
+          </button>
+        </article>
+
+        <!-- POST 3 -->
+        <article class="feed-card">
+          <div class="feed-meta">
+            <span>@studio.sessions</span>
+            <span>Yesterday</span>
+          </div>
+          <div class="feed-thumb"></div>
+          <div class="feed-title">Weekly live recap</div>
+          <div class="feed-meta">
+            <span>Replay • 42 min</span>
+            <span>💙 203</span>
+          </div>
+          <button class="btn btn-outline" style="width:100%;margin-top:8px;">
+            Watch replay
+          </button>
+          <button class="btn btn-primary" style="width:100%;margin-top:6px;">
+            Tip &amp; send message
+          </button>
+        </article>
+      </div>
+    </section>
   </main>
-  <script>
-    const SUPABASE_URL = "https://wypxdfrpmmkgzlnoqook.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5cHhkZnJwbW1rZ3psbm9xb29rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjA5NzEsImV4cCI6MjA4MDAzNjk3MX0.urM_wmEmK4A8VFJrtgIZYDcCFTKPCcYUybl4d2NcVZA";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    async function getUser() {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      if (!session || error) {
-        window.location.href = 'login.html';
-        return null;
-      }
-      return session.user;
-    }
-    async function loadFeed() {
-      const feedEl = document.getElementById('feed');
-      // Placeholder: In future, fetch posts from Supabase and render
-      feedEl.innerHTML = '<p class="text-yellow-500">Feed functionality coming soon…</p>';
-    }
-    async function init() {
-      const user = await getUser();
-      if (!user) return;
-      document.getElementById('username').textContent = user.email;
-      loadFeed();
-    }
-    init();
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      window.location.href = 'index.html';
-    });
-  </script>
 </body>
 </html>
