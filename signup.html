@@ -2,57 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>OnlyDoFans – Sign up</title>
+  <title>OnlyDoFans – Subscriber hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <script src="assets/js/auth.js"></script>
 </head>
-<body>
+<body onload="const u=requireAuth('subscriber'); if(u){document.getElementById('subEmail').textContent=u.email;}">
   <header class="top-nav">
     <div class="top-nav-inner">
       <div class="brand">
         <div class="brand-badge">O</div>
         <div>
-          <div class="brand-name">OnlyDoFans</div>
-          <div class="badge-soft">Create your account</div>
+          <div class="brand-name">Subscriber hub</div>
+          <div class="badge-soft">Preview build</div>
         </div>
       </div>
       <div class="nav-actions">
-        <a href="login.html" class="btn btn-outline">Log in</a>
+        <a href="creator.html" class="btn btn-outline">Switch to creator</a>
+        <button class="btn btn-primary" onclick="logout()">Log out</button>
       </div>
     </div>
   </header>
 
-  <main class="auth-page">
-    <div class="card">
-      <h1>Get started</h1>
-      <p class="hint">Veldu hvort þú ert Creator eða Subscriber. Þú getur alltaf breytt þessu seinna í „alvöru“ útgáfu.</p>
-
-      <form onsubmit="handleSignupSubmit(event)">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" class="input" required />
+  <main class="dashboard-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="avatar"></div>
+        <div>
+          <div id="subEmail" style="font-size:14px;font-weight:600;">Subscriber</div>
+          <div class="sidebar-role">Subscriber • ad-free feed</div>
         </div>
+      </div>
+      <div class="sidebar-nav">
+        <button class="active">Feed</button>
+        <button>Messages</button>
+        <button>Billing</button>
+        <button>Settings</button>
+      </div>
+      <div class="sidebar-footer">
+        This is a visual prototype – no real billing or storage yet.
+      </div>
+    </aside>
 
-        <div class="form-group">
-          <label>Role</label>
-          <div class="radio-row">
-            <label>
-              <input type="radio" name="role" value="creator" checked />
-              Creator – I publish content
-            </label>
-            <label>
-              <input type="radio" name="role" value="subscriber" />
-              Subscriber – I support creators
-            </label>
+    <section class="main-panel">
+      <div class="main-panel-header">
+        <h1>Your feed</h1>
+        <span class="pill">Following 3 creators</span>
+      </div>
+
+      <div class="grid">
+        <article class="feed-card">
+          <div class="feed-meta">
+            <span>spectral.bby</span>
+            <span>3h ago</span>
           </div>
-        </div>
+          <div class="feed-thumb"></div>
+          <div class="feed-title">Night lab session behind the scenes</div>
+          <div class="feed-meta">
+            <span>HD • 14 min</span>
+            <span>💙 126</span>
+          </div>
+        </article>
 
-        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px;">
-          Continue
-        </button>
-      </form>
-    </div>
+        <article class="feed-card">
+          <div class="feed-meta">
+            <span>wicked.raman</span>
+            <span>9h ago</span>
+          </div>
+          <div class="feed-thumb"></div>
+          <div class="feed-title">Unboxing new optics &amp; first impressions</div>
+          <div class="feed-meta">
+            <span>4K • 8 min</span>
+            <span>💙 89</span>
+          </div>
+        </article>
+
+        <article class="feed-card">
+          <div class="feed-meta">
+            <span>nano.alchemy</span>
+            <span>Yesterday</span>
+          </div>
+          <div class="feed-thumb"></div>
+          <div class="feed-title">SpectralOS dev update &amp; roadmap</div>
+          <div class="feed-meta">
+            <span>Live replay</span>
+            <span>💙 203</span>
+          </div>
+        </article>
+      </div>
+    </section>
   </main>
 </body>
 </html>
