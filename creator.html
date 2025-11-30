@@ -7,16 +7,24 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
   <script src="assets/js/auth.js"></script>
 </head>
-<body onload="const u=requireAuth('creator'); if(u){document.getElementById('creatorEmail').textContent=u.email;}">
+<body
+  onload="
+    const u = requireAuth('creator');
+    if (u) {
+      document.getElementById('creatorEmail').textContent = u.email;
+    }
+  "
+>
   <header class="top-nav">
     <div class="top-nav-inner">
       <div class="brand">
         <div class="brand-badge">O</div>
         <div>
           <div class="brand-name">Creator portal</div>
-          <div class="badge-soft">Internal beta</div>
+          <div class="badge-soft">Private beta build</div>
         </div>
       </div>
+
       <div class="nav-actions">
         <a href="subscriber.html" class="btn btn-outline">View as subscriber</a>
         <button class="btn btn-primary" onclick="logout()">Log out</button>
@@ -25,32 +33,42 @@
   </header>
 
   <main class="dashboard-shell">
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="avatar"></div>
         <div>
-          <div id="creatorEmail" style="font-size:14px;font-weight:600;">Creator</div>
-          <div class="sidebar-role">Creator • 90% rev share</div>
+          <div id="creatorEmail" style="font-size:14px;font-weight:600;">
+            Creator
+          </div>
+          <div class="sidebar-role">Creator • 90% revenue share</div>
         </div>
       </div>
+
       <div class="sidebar-nav">
         <button class="active">Overview</button>
         <button>Posts</button>
         <button>Messages</button>
         <button>Subscribers</button>
+        <button>Settings</button>
       </div>
+
       <div class="sidebar-footer">
-        Powered by imaginary infra.<br />
-        Real payments &amp; storage koma seinna.
+        This is a visual prototype. Real payouts, storage &amp; payments will be wired up later.
       </div>
     </aside>
 
+    <!-- MAIN PANEL -->
     <section class="main-panel">
       <div class="main-panel-header">
-        <h1>Overview</h1>
+        <div>
+          <h1>Overview</h1>
+          <div class="stat-label">High-level snapshot of your creator account</div>
+        </div>
         <span class="pill">Today</span>
       </div>
 
+      <!-- TOP STATS -->
       <div class="grid">
         <div class="stat-card">
           <div class="stat-label">Active subscribers</div>
@@ -59,6 +77,7 @@
             +5 in the last 7 days
           </div>
         </div>
+
         <div class="stat-card">
           <div class="stat-label">Monthly recurring</div>
           <div class="stat-value">€ 1,240</div>
@@ -66,18 +85,83 @@
             Payout ETA: 3 days
           </div>
         </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Tips this month</div>
+          <div class="stat-value">€ 186</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">
+            Crypto &amp; card – unified total
+          </div>
+        </div>
+
         <div class="stat-card">
           <div class="stat-label">Messages waiting</div>
           <div class="stat-value">8</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">
+            Answer fast to keep fans engaged
+          </div>
         </div>
       </div>
 
-      <h2 style="font-size:15px;margin-top:16px;margin-bottom:6px;">Upload new drop</h2>
-      <div class="upload-card">
-        <div class="stat-label">Video or photo set</div>
-        <div class="upload-drop">
-          Drag &amp; drop files here eða <strong>browse</strong>.<br />
-          (Í þessari útgáfu er þetta bara UI – engin raunveruleg upload enn.)
+      <!-- UPLOAD + LATEST POST -->
+      <h2 style="font-size:15px;margin-top:18px;margin-bottom:6px;">
+        Upload new drop
+      </h2>
+      <div class="grid">
+        <div class="upload-card">
+          <div class="stat-label">Video / photo set / audio</div>
+          <div class="upload-drop">
+            Drag &amp; drop files here eða <strong>browse</strong>.<br />
+            <span style="font-size:12px;">
+              In this build, this area is UI-only – upload wiring comes later.
+            </span>
+          </div>
+          <button class="btn btn-primary" style="margin-top:10px;width:100%;">
+            Create post draft
+          </button>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Latest post performance</div>
+          <div style="margin-top:6px;font-size:13px;">
+            <strong>“Night lab – BTS”</strong><br />
+            1.9k views • 212 likes • 36 comments
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--muted);">
+            7 new subscribers attributed to this post.
+          </div>
+        </div>
+      </div>
+
+      <!-- CRYPTO TIPS CONFIG (UI ONLY) -->
+      <h2 style="font-size:15px;margin-top:20px;margin-bottom:6px;">
+        Tips configuration (crypto &amp; card)
+      </h2>
+      <div class="grid">
+        <div class="stat-card">
+          <div class="stat-label">Default tip presets</div>
+          <div style="margin-top:6px;font-size:13px;">
+            <ul style="margin:0 0 6px 18px;padding:0;">
+              <li>€5 – “Small boost”</li>
+              <li>€20 – “Big supporter”</li>
+              <li>€50 – “Legend mode”</li>
+            </ul>
+            <span style="font-size:12px;color:var(--muted);">
+              In a later version, these will be editable and synced to the backend.
+            </span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Crypto wallets (tips only)</div>
+          <div style="margin-top:6px;font-size:13px;">
+            <strong>BTC</strong> • 1CreatorBTCAddress…<br />
+            <strong>ETH</strong> • 0xCreatorEthAddress…<br />
+            <strong>USDT</strong> • USDT-compatible address
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--muted);">
+            UI first – actual on-chain integration comes with the payment backend.
+          </div>
         </div>
       </div>
     </section>
