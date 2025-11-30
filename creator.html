@@ -2,76 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>OnlyDoFans – Creator portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OnlyDoFans — Creator Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.js"></script>
-  <style>
-    body { background:#0A0A0A; color:#fff; }
-    .container { max-width:600px; margin:0 auto; padding-top:3rem; }
-  </style>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script src="assets/js/auth.js"></script>
 </head>
-<body>
-  <header class="sticky top-0 z-50 bg-ink/70 backdrop-blur border-b border-white/10">
-    <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-brand shadow"><span class="text-2xl font-extrabold text-ink">O</span></span>
-        <span class="text-xl font-bold tracking-tight">OnlyDoFans</span>
+<body onload="const u=requireAuth('creator'); if(u){document.getElementById('creatorEmail').textContent=u.email;}">
+  <header class="top-nav">
+    <div class="top-nav-inner">
+      <div class="brand">
+        <div class="brand-badge">O</div>
+        <div>
+          <div class="brand-name">Creator portal</div>
+          <div class="badge-soft">Internal beta</div>
+        </div>
       </div>
-      <nav class="flex gap-4">
-        <button id="logout-btn" class="text-brand hover:underline">Log Out</button>
-      </nav>
+      <div class="nav-actions">
+        <a href="subscriber.html" class="btn btn-outline">View as subscriber</a>
+        <button class="btn btn-primary" onclick="logout()">Log out</button>
+      </div>
     </div>
   </header>
-  <main class="container">
-    <h1 class="text-3xl font-bold mb-4">Creator Portal</h1>
-    <p class="mb-6">Welcome, <span id="username">Creator</span>! Here you can upload content for your subscribers.</p>
-    <!-- Upload form -->
-    <form id="upload-form" class="space-y-4">
-      <div>
-        <label for="post-text" class="block text-sm font-medium mb-1">Post text</label>
-        <textarea id="post-text" rows="3" class="w-full px-3 py-2 bg-gray-800 rounded-md"></textarea>
+
+  <main class="dashboard-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="avatar"></div>
+        <div>
+          <div id="creatorEmail" style="font-size:14px;font-weight:600;">Creator</div>
+          <div class="sidebar-role">Creator • 90% rev share</div>
+        </div>
       </div>
-      <div>
-        <label for="file-input" class="block text-sm font-medium mb-1">Upload media (image/video)</label>
-        <input type="file" id="file-input" accept="image/*,video/*" class="w-full text-sm" />
+      <div class="sidebar-nav">
+        <button class="active">Overview</button>
+        <button>Posts</button>
+        <button>Messages</button>
+        <button>Subscribers</button>
       </div>
-      <button type="submit" class="py-2 px-4 bg-brand text-ink font-semibold rounded-md hover:bg-brand-deep">Upload</button>
-      <div id="status" class="text-sm mt-2"></div>
-    </form>
+      <div class="sidebar-footer">
+        Powered by imaginary infra.<br />
+        Real payments &amp; storage koma seinna.
+      </div>
+    </aside>
+
+    <section class="main-panel">
+      <div class="main-panel-header">
+        <h1>Overview</h1>
+        <span class="pill">Today</span>
+      </div>
+
+      <div class="grid">
+        <div class="stat-card">
+          <div class="stat-label">Active subscribers</div>
+          <div class="stat-value">27</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">
+            +5 in the last 7 days
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Monthly recurring</div>
+          <div class="stat-value">€ 1,240</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px;">
+            Payout ETA: 3 days
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Messages waiting</div>
+          <div class="stat-value">8</div>
+        </div>
+      </div>
+
+      <h2 style="font-size:15px;margin-top:16px;margin-bottom:6px;">Upload new drop</h2>
+      <div class="upload-card">
+        <div class="stat-label">Video or photo set</div>
+        <div class="upload-drop">
+          Drag &amp; drop files here eða <strong>browse</strong>.<br />
+          (Í þessari útgáfu er þetta bara UI – engin raunveruleg upload enn.)
+        </div>
+      </div>
+    </section>
   </main>
-  <script>
-    const SUPABASE_URL = "https://wypxdfrpmmkgzlnoqook.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5cHhkZnJwbW1rZ3psbm9xb29rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjA5NzEsImV4cCI6MjA4MDAzNjk3MX0.urM_wmEmK4A8VFJrtgIZYDcCFTKPCcYUybl4d2NcVZA";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    async function getUser() {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      if (!session || error) {
-        // Not logged in, redirect to login
-        window.location.href = 'login.html';
-        return null;
-      }
-      return session.user;
-    }
-    async function init() {
-      const user = await getUser();
-      if (!user) return;
-      document.getElementById('username').textContent = user.email;
-    }
-    init();
-    // Logout handler
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      window.location.href = 'index.html';
-    });
-    // Upload form handler (placeholder implementation)
-    const uploadForm = document.getElementById('upload-form');
-    uploadForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const statusEl = document.getElementById('status');
-      statusEl.textContent = 'Upload functionality coming soon…';
-      statusEl.className = 'text-yellow-500 mt-2';
-    });
-  </script>
 </body>
 </html>
