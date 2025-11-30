@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnlyDoFans — Sign Up</title>
+  <!-- Tailwind CSS for simple styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase client library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.js"></script>
+  <style>
+    body { background:#0A0A0A; color:#fff; }
+    .container { max-width:400px; margin:0 auto; padding-top:4rem; }
+  </style>
+</head>
+<body class="antialiased">
+  <header class="sticky top-0 z-50 bg-ink/70 backdrop-blur border-b border-white/10">
+    <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-brand shadow"><span class="text-2xl font-extrabold text-ink">O</span></span>
+        <span class="text-xl font-bold tracking-tight">OnlyDoFans</span>
+      </div>
+      <nav class="flex gap-4">
+        <a href="index.html" class="hover:underline">Home</a>
+        <a href="login.html" class="hover:underline">Log In</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h1 class="text-3xl font-bold mb-6">Create your account</h1>
+    <form id="signup-form" class="space-y-4">
+      <div>
+        <label for="email" class="block text-sm font-medium mb-1">Email address</label>
+        <input type="email" id="email" required class="w-full px-3 py-2 bg-gray-800 rounded-md" />
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium mb-1">Password</label>
+        <input type="password" id="password" required class="w-full px-3 py-2 bg-gray-800 rounded-md" />
+      </div>
+      <button type="submit" class="w-full py-2 bg-brand text-ink font-semibold rounded-md hover:bg-brand-deep">Sign Up</button>
+      <p class="text-sm mt-3 text-center">Already have an account? <a href="login.html" class="text-brand underline">Log in</a></p>
+      <div id="message" class="text-sm mt-3"></div>
+    </form>
+  </main>
+  <script>
+    // Initialize Supabase client using public URL and anon key.
+    const SUPABASE_URL = "https://wypxdfrpmmkgzlnoqook.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5cHhkZnJwbW1rZ3psbm9xb29rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjA5NzEsImV4cCI6MjA4MDAzNjk3MX0.urM_wmEmK4A8VFJrtgIZYDcCFTKPCcYUybl4d2NcVZA";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const form = document.getElementById('signup-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      const messageEl = document.getElementById('message');
+      if (error) {
+        messageEl.textContent = error.message;
+        messageEl.className = 'text-red-500 mt-2';
+      } else {
+        messageEl.textContent = 'Check your email to confirm your account';
+        messageEl.className = 'text-green-500 mt-2';
+        // Optionally redirect to dashboard after a short delay
+      }
+    });
+  </script>
+</body>
+</html>

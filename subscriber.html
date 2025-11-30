@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnlyDoFans — Subscriber Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.js"></script>
+  <style>
+    body { background:#0A0A0A; color:#fff; }
+    .container { max-width:600px; margin:0 auto; padding-top:3rem; }
+  </style>
+</head>
+<body>
+  <header class="sticky top-0 z-50 bg-ink/70 backdrop-blur border-b border-white/10">
+    <div class="mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-brand shadow"><span class="text-2xl font-extrabold text-ink">O</span></span>
+        <span class="text-xl font-bold tracking-tight">OnlyDoFans</span>
+      </div>
+      <nav class="flex gap-4">
+        <button id="logout-btn" class="text-brand hover:underline">Log Out</button>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h1 class="text-3xl font-bold mb-4">Subscriber Portal</h1>
+    <p class="mb-6">Welcome, <span id="username">Subscriber</span>! Here is your feed of subscribed creators.</p>
+    <div id="feed" class="space-y-4">
+      <p class="text-gray-400">Feed loading…</p>
+    </div>
+  </main>
+  <script>
+    const SUPABASE_URL = "https://wypxdfrpmmkgzlnoqook.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5cHhkZnJwbW1rZ3psbm9xb29rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NjA5NzEsImV4cCI6MjA4MDAzNjk3MX0.urM_wmEmK4A8VFJrtgIZYDcCFTKPCcYUybl4d2NcVZA";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    async function getUser() {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (!session || error) {
+        window.location.href = 'login.html';
+        return null;
+      }
+      return session.user;
+    }
+    async function loadFeed() {
+      const feedEl = document.getElementById('feed');
+      // Placeholder: In future, fetch posts from Supabase and render
+      feedEl.innerHTML = '<p class="text-yellow-500">Feed functionality coming soon…</p>';
+    }
+    async function init() {
+      const user = await getUser();
+      if (!user) return;
+      document.getElementById('username').textContent = user.email;
+      loadFeed();
+    }
+    init();
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
